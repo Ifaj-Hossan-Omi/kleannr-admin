@@ -14,9 +14,17 @@ export function useAdminLogin() {
   });
 }
 
-/** Stage 2 TOTP verify. */
+/** Stage 2 TOTP verify. Seeds the `me` cache from the response so the route guard
+ *  renders immediately and doesn't depend on a fresh `/bff/me` round-trip (KV is
+ *  eventually-consistent — see the id-rotation note in worker `handleTotp`). */
 export function useTotpVerify() {
-  return useMutation({ mutationFn: (vars: { code: string }) => totpVerify(vars.code) });
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (vars: { code: string }) => totpVerify(vars.code),
+    onSuccess: (res) => {
+      if (res?.user) qc.setQueryData(['me'], { user: res.user });
+    },
+  });
 }
 
 export function useTotpSetup() {

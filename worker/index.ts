@@ -173,7 +173,7 @@ async function handleLogin(request: Request, env: Env, secure: boolean): Promise
   return json({ authenticated: false, totpRequired: !!data?.totpRequired, totpEnrollmentNeeded: !!data?.totpEnrollmentNeeded }, 200, headers);
 }
 
-async function handleTotp(request: Request, env: Env): Promise<Response> {
+async function handleTotp(request: Request, env: Env, secure: boolean): Promise<Response> {
   if (!originOk(request)) return json({ title: 'forbidden' }, 403);
   const got = await loadSession(env, request);
   if (!got || !got.session.pendingTotpToken) return json({ title: 'unauthorized', detail: 'no_pending_totp' }, 401);
@@ -189,9 +189,19 @@ async function handleTotp(request: Request, env: Env): Promise<Response> {
   const data = (await upstreamJson(up)) as LoginUpstream | null;
   if (!up.ok) return json(data ?? { title: 'unauthorized', status: up.status }, up.status);
 
+  // Rotate to a FRESH session id on successful auth. KV is eventually-consistent and
+  // caches reads at the edge for ~60s: the verify step above already read (and cached)
+  // the *pending* session under got.id, so an immediate /bff/me read of that SAME key
+  // serves the stale, token-less copy → the admin gets bounced back to /login (the
+  // prod-only post-login redirect). A brand-new key has no cached read, so its first
+  // read hits origin and sees the tokens. Also good session-fixation hygiene.
+  const newId = crypto.randomUUID();
   const session: Session = { deviceId: got.session.deviceId, accessToken: data?.accessToken ?? undefined, refreshToken: data?.refreshToken ?? undefined, user: data?.user ?? undefined };
-  await env.SESSIONS.put(got.id, JSON.stringify(session), { expirationTtl: ttl(env) });
-  return json({ authenticated: true, user: data?.user }, 200);
+  await env.SESSIONS.put(newId, JSON.stringify(session), { expirationTtl: ttl(env) });
+  await env.SESSIONS.delete(got.id); // drop the spent pending session (best-effort)
+  const headers = new Headers();
+  setSessionCookie(headers, newId, secure);
+  return json({ authenticated: true, user: data?.user }, 200, headers);
 }
 
 /**
@@ -314,7 +324,7 @@ export default {
 
     try {
       if (path === '/bff/auth/login' && m === 'POST') return await handleLogin(request, env, secure);
-      if (path === '/bff/auth/totp' && m === 'POST') return await handleTotp(request, env);
+      if (path === '/bff/auth/totp' && m === 'POST') return await handleTotp(request, env, secure);
       if (path === '/bff/auth/totp/setup' && m === 'POST') return await handleTotpEnroll(request, env, 'setup');
       if (path === '/bff/auth/totp/confirm' && m === 'POST') return await handleTotpEnroll(request, env, 'confirm');
       if (path === '/bff/auth/logout' && m === 'POST') return await handleLogout(request, env, secure);
