@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "composite": false,
+    "tsBuildInfoFile": null,
+    "noEmit": true
+  },
+  "include": ["src", "src/test/globals.d.ts"],
+  "exclude": []
+}

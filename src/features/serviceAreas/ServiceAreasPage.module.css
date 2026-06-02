@@ -1,0 +1,78 @@
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 75em) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ---------- Area list ---------- */
+.listCard { padding: 12px; }
+.listHead { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px 12px; gap: 8px; }
+.listTitle { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--knr-ink); }
+
+.areaItem { display: flex; align-items: center; gap: 11px; padding: 11px 10px; border-radius: 14px; cursor: pointer; transition: background 0.15s ease; }
+.areaItem:hover { background: rgba(18, 102, 132, 0.06); }
+.areaItemActive { background: linear-gradient(135deg, rgba(150, 219, 254, 0.3), rgba(18, 102, 132, 0.12)); }
+.swatch { width: 12px; height: 12px; border-radius: 4px; flex: none; }
+.areaItemMeta { flex: 1; min-width: 0; }
+.areaItemName { font-weight: 700; font-size: 0.9rem; color: var(--knr-ink); }
+.areaItemCode { font-size: 0.74rem; color: var(--knr-on-surface-variant); font-feature-settings: 'tnum'; }
+.areaItemFee { font-size: 0.82rem; font-weight: 700; color: var(--knr-ink); font-feature-settings: 'tnum'; }
+
+/* ---------- Map + panels ---------- */
+.mapCard { padding: 10px; }
+.map { height: 480px; width: 100%; border-radius: var(--knr-radius-xl); overflow: hidden; z-index: 0; }
+
+.panel { padding: 18px 16px 8px; }
+.panelHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.panelTitle { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--knr-ink); }
+.panelCode { font-size: 0.8rem; color: var(--knr-on-surface-variant); font-feature-settings: 'tnum'; }
+
+.note { background: rgba(91, 103, 110, 0.1); color: var(--knr-on-surface-variant); border-radius: var(--knr-radius-lg); padding: 11px 14px; font-size: 0.82rem; line-height: 1.5; margin: 14px 0 18px; }
+
+.metaGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0 18px; }
+.metaLabel { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--knr-on-surface-variant); font-weight: 700; margin-bottom: 3px; }
+.metaValue { font-size: 0.96rem; color: var(--knr-ink); font-weight: 700; font-feature-settings: 'tnum'; }
+.panelActions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- Create panel ---------- */
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(18, 102, 132, 0.08);
+  border-radius: var(--knr-radius-lg);
+  padding: 11px 14px;
+  font-size: 0.83rem;
+  color: var(--knr-flow);
+  margin-bottom: 14px;
+}
+.drawStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.drawWaiting { background: rgba(91, 103, 110, 0.12); color: #5b676e; }
+.drawReady { background: rgba(22, 160, 111, 0.15); color: #0c6b4e; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ---------- Overrides matrix ---------- */
+.matrixWrap { overflow-x: auto; }
+.matrix { border-collapse: separate; border-spacing: 0; width: 100%; }
+.matrix th { font-size: 0.8rem; font-weight: 700; color: var(--knr-ink); padding: 10px; text-align: center; white-space: nowrap; }
+.cornerHead { text-align: left !important; color: var(--knr-on-surface-variant) !important; font-size: 0.7rem !important; text-transform: uppercase; letter-spacing: 0.06em; }
+.rowHead { text-align: left; font-weight: 700; color: var(--knr-ink); padding: 6px 12px; white-space: nowrap; font-size: 0.86rem; }
+.matrix td { padding: 4px; text-align: center; }
+.baseHint { font-size: 0.68rem; color: var(--knr-on-surface-variant); margin-top: 2px; }
+
+.cell { width: 100%; border: none; background: var(--knr-surface-low); border-radius: 10px; padding: 7px 6px; font-weight: 700; font-size: 0.84rem; color: var(--knr-ink); cursor: pointer; font-feature-settings: 'tnum'; min-width: 72px; transition: background 0.15s ease; }
+.cell:hover { background: rgba(18, 102, 132, 0.1); }
+.cellOverride { background: rgba(18, 102, 132, 0.16); color: var(--knr-flow); }
+.cellEmpty { color: var(--knr-on-surface-variant); }

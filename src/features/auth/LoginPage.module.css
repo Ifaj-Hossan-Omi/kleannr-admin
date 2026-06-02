@@ -1,0 +1,165 @@
+.wrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+/* ---------- Brand panel (deep ink, the contrast moment) ---------- */
+.brandPanel {
+  position: relative;
+  overflow: hidden;
+  background: var(--knr-grad-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 54px;
+  color: #fff;
+}
+.brandPanel::before {
+  content: '';
+  position: absolute;
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150, 219, 254, 0.36), transparent 62%);
+  top: -150px;
+  right: -130px;
+}
+.brandPanel::after {
+  content: '';
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(31, 156, 198, 0.32), transparent 60%);
+  bottom: -170px;
+  left: -130px;
+}
+
+.brandTop {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brandLogoTile {
+  display: inline-flex;
+  padding: 6px;
+  background: #fff;
+  border-radius: 11px;
+  box-shadow: 0 8px 20px rgba(1, 44, 65, 0.25);
+}
+.brandLogoTile img { width: 30px; height: 30px; display: block; }
+.brandWordmark {
+  font-family: 'Manrope Variable', sans-serif;
+  font-weight: 800;
+  font-size: 1.32rem;
+  letter-spacing: -0.03em;
+}
+.brandWordmark em { font-style: normal; color: var(--knr-aqua); }
+
+.brandCenter { position: relative; z-index: 2; max-width: 470px; }
+.heroTile {
+  display: inline-flex;
+  padding: 16px;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 22px 56px rgba(150, 219, 254, 0.5);
+}
+.heroTile img { width: 88px; height: 88px; display: block; }
+.eyebrowLight {
+  display: block;
+  margin-top: 30px;
+  color: var(--knr-aqua);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.72rem;
+  font-family: 'Manrope Variable', sans-serif;
+}
+.heroTitle {
+  font-family: 'Manrope Variable', sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin: 16px 0 18px;
+}
+.heroSub {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.04rem;
+  line-height: 1.62;
+  max-width: 410px;
+  margin: 0;
+}
+
+.chips {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroTile { animation: knr-float 8s ease-in-out infinite; }
+}
+
+/* ---------- Form panel ---------- */
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+}
+.card {
+  width: 100%;
+  max-width: 406px;
+  padding: 42px 38px 30px;
+}
+.cardLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.cardLogo img { width: 34px; height: 34px; }
+.cardWordmark {
+  font-family: 'Manrope Variable', sans-serif;
+  font-weight: 800;
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+  color: var(--knr-ink);
+}
+.cardWordmark em { font-style: normal; color: var(--knr-flow); }
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 24px;
+  color: var(--knr-on-surface-variant);
+  font-size: 0.79rem;
+}
+
+@media (max-width: 60em) {
+  .wrap { grid-template-columns: 1fr; }
+  .brandPanel { display: none; }
+}

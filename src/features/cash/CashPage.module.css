@@ -1,0 +1,95 @@
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+@media (max-width: 75em) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ---------- Rider list (left) ---------- */
+.listCard { padding: 12px; }
+.listHead { padding: 6px 8px 12px; }
+.listTitle { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--knr-ink); }
+.listSub { font-size: 0.76rem; color: var(--knr-on-surface-variant); margin-top: 2px; }
+
+.riderItem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.riderItem:hover { background: rgba(18, 102, 132, 0.06); }
+.riderItemActive { background: linear-gradient(135deg, rgba(150, 219, 254, 0.3), rgba(18, 102, 132, 0.12)); }
+.riderItemMeta { flex: 1; min-width: 0; }
+.riderItemName { font-weight: 700; font-size: 0.88rem; color: var(--knr-ink); }
+.riderItemArea { font-size: 0.74rem; color: var(--knr-on-surface-variant); }
+.dueChip { font-weight: 700; font-size: 0.84rem; font-feature-settings: 'tnum'; text-align: right; white-space: nowrap; }
+
+.duePos { color: var(--knr-ink); }
+.dueNeg { color: #0c6b4e; }
+.dueZero { color: var(--knr-on-surface-variant); }
+
+/* ---------- Detail (right) ---------- */
+.detail { display: flex; flex-direction: column; gap: 18px; }
+
+.balanceCard { padding: 26px 28px; position: relative; overflow: hidden; }
+.balanceHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.balanceRiderName { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--knr-ink); }
+.balanceRiderArea { font-size: 0.8rem; color: var(--knr-on-surface-variant); }
+.balanceLabel { font-size: 0.8rem; color: var(--knr-on-surface-variant); margin-top: 16px; }
+.balanceValue {
+  font-family: 'Manrope Variable', sans-serif;
+  font-weight: 800;
+  font-size: 2.8rem;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 4px 0 4px;
+}
+.balanceValuePos { color: var(--knr-ink); }
+.balanceValueNeg { color: #0c6b4e; }
+.balanceSub { font-size: 0.86rem; color: var(--knr-on-surface-variant); }
+.balanceActions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+
+/* ---------- Ledger ---------- */
+.ledgerCard { padding: 6px 10px 14px; }
+.ledgerHead { display: flex; align-items: center; justify-content: space-between; padding: 16px 14px 8px; }
+.ledgerTitle { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--knr-ink); }
+.entry { display: flex; align-items: center; gap: 14px; padding: 11px 14px; border-radius: 14px; transition: background 0.15s ease; }
+.entry:hover { background: rgba(18, 102, 132, 0.04); }
+.entryIcon { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex: none; }
+.entryBody { flex: 1; min-width: 0; }
+.entryLabel { font-weight: 600; font-size: 0.9rem; color: var(--knr-ink); }
+.entryMeta { font-size: 0.77rem; color: var(--knr-on-surface-variant); }
+.entryAmount { font-weight: 700; font-size: 0.95rem; font-feature-settings: 'tnum'; white-space: nowrap; }
+.amountPos { color: var(--knr-ink); }
+.amountNeg { color: #0c6b4e; }
+.emptyLedger { text-align: center; color: var(--knr-on-surface-variant); padding: 40px 0; }
+
+/* ---------- Overview ---------- */
+.overviewCard { padding: 22px 24px; }
+.overviewHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.overviewTitle { font-family: 'Manrope Variable', sans-serif; font-weight: 800; font-size: 1.12rem; color: var(--knr-ink); }
+
+.seg { display: flex; gap: 4px; padding: 4px; background: rgba(255, 255, 255, 0.62); border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: var(--knr-shadow-sm); }
+.segBtn { padding: 6px 15px; border-radius: 9999px; border: none; background: transparent; font: inherit; font-weight: 600; font-size: 0.82rem; color: var(--knr-on-surface-variant); cursor: pointer; transition: all 0.18s ease; }
+.segBtnActive { background: var(--knr-grad-primary); color: #fff; }
+
+.ovTable { width: 100%; border-collapse: separate; border-spacing: 0; }
+.ovTable th { text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--knr-on-surface-variant); font-weight: 700; padding: 0 12px 12px; }
+.ovTable td { padding: 11px 12px; font-size: 0.88rem; font-feature-settings: 'tnum'; }
+.num { text-align: right; }
+.ovBucket { font-weight: 700; color: var(--knr-ink); }
+.ovRow:hover td { background: rgba(18, 102, 132, 0.04); }
+.ovTotals td { font-weight: 800; color: var(--knr-ink); padding-top: 14px; }
+
+/* ---------- Modal helpers ---------- */
+.idemNote { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--knr-on-surface-variant); }
+.reasonFoot { display: flex; justify-content: space-between; font-size: 0.74rem; }
+.reasonOk { color: var(--knr-on-surface-variant); }
+.reasonErr { color: #8f2c3e; }

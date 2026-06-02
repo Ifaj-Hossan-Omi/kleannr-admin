@@ -1,0 +1,22 @@
+# Cloudflare response headers for the deployed static assets (the SPA shell + JS/CSS).
+# Applies to the deployed site only — NOT to `vite` dev/preview. The BFF Worker (/bff/*) sets its
+# own response headers; this file governs the HTML/JS the browser loads.
+#
+# Verify after deploy:
+#   curl -sI https://<your-domain>/ | grep -i content-security-policy
+#
+# Why each directive:
+#   script-src 'self'                -> primary XSS defense; the build ships NO inline scripts
+#                                       (Vite modulepreload polyfill off; no Mantine ColorSchemeScript).
+#   style-src 'self' 'unsafe-inline' -> Mantine injects inline styles + screens use style={} attrs.
+#   img-src ... data: ...tile.openstreetmap.org ...r2.dev -> TOTP QR (data:), Leaflet map tiles,
+#                                       and R2-hosted images (confirm/trim the R2 host at deploy).
+#   connect-src 'self'               -> the browser only calls the same-origin BFF (/bff/*); the BFF
+#                                       reaches the upstream API server-to-server (CSP/CORS don't apply there).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org https://*.r2.dev https://pics.kleannr.com; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), microphone=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin

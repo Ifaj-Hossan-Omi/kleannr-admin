@@ -1,0 +1,29 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+
+# Cloudflare / Wrangler local state — Miniflare's emulated KV lives here and holds
+# real session tokens from dev logins. NEVER commit.
+.wrangler/
+.dev.vars
+
+# Logs (dev server + install output)
+*.log
+
+# Claude Code: keep shared launch.json, ignore personal/machine settings
+.claude/settings.local.json
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
