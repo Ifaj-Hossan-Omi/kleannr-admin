@@ -34,8 +34,19 @@ wrangler deploy                # uploads the Worker + static assets
 > assets (incl. `_headers`) are read, and both bindings resolve — the only thing left is a real
 > `SESSIONS` KV id.
 
-## Custom domain (optional)
-Cloudflare dashboard → Workers → your worker → add a Custom Domain (e.g. `admin.kleannr.com`).
+## Custom domain — `admin.kleannr.com`
+Declared in `wrangler.jsonc` (`routes` → `custom_domain: true`), so **`wrangler deploy`
+auto-provisions** the DNS record + TLS cert — no manual DNS. Requires `kleannr.com` to be a
+Cloudflare zone in the **same account** as the Worker (it is — nameservers are `*.ns.cloudflare.com`).
+
+- **Token:** attaching the domain needs zone access. The "Edit Cloudflare Workers" token template
+  usually suffices; if a deploy errors *while attaching the domain*, add **Zone → DNS → Edit** (scoped
+  to `kleannr.com`) to the token — or attach it once via the dashboard (Workers → `kleannr-admin` →
+  Settings → Domains & Routes → Add → Custom Domain), which persists across deploys.
+- **No app changes:** `admin.kleannr.com` is same-origin for the BFF, so the `connect-src 'self'` CSP
+  and the `Secure` (HTTPS-only) session cookie work unchanged.
+- **Optional:** set `"workers_dev": false` in `wrangler.jsonc` to serve **only** the custom domain and
+  drop the public `*.workers.dev` URL.
 
 ## Pre-deploy checklist
 - [ ] `SESSIONS` KV namespace created + id pasted into `wrangler.jsonc` (replaces `REPLACE_WITH_REAL_KV_NAMESPACE_ID`).

@@ -7,6 +7,12 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/bff/*"]
   },
+  // Custom domain — Cloudflare provisions the DNS record + TLS cert on `wrangler deploy`
+  // (no manual DNS). Requires kleannr.com to be a Cloudflare zone in the SAME account as
+  // this Worker — confirmed: nameservers are *.ns.cloudflare.com.
+  "routes": [
+    { "pattern": "admin.kleannr.com", "custom_domain": true }
+  ],
   "kv_namespaces": [
     // Local dev (Miniflare) emulates this by binding name. Before deploy, create a
     // real namespace: `wrangler kv namespace create SESSIONS` and paste the id here.
