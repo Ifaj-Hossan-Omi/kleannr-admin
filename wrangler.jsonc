@@ -14,9 +14,9 @@
     { "pattern": "admin.kleannr.com", "custom_domain": true }
   ],
   "kv_namespaces": [
-    // Local dev (Miniflare) emulates this by binding name. Before deploy, create a
-    // real namespace: `wrangler kv namespace create SESSIONS` and paste the id here.
-    { "binding": "SESSIONS", "id": "REPLACE_WITH_REAL_KV_NAMESPACE_ID" }
+    // Local dev (Miniflare) emulates this by binding name; the id below is the real
+    // production namespace (created via `wrangler kv namespace create SESSIONS`).
+    { "binding": "SESSIONS", "id": "1190dbc75e404ffda6f446309cc44d34" }
   ],
   "vars": {
     "API_BASE_URL": "https://api.kleannr.com/api/v1"
