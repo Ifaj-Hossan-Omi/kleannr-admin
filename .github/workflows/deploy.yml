@@ -1,0 +1,43 @@
+name: Deploy to Cloudflare Workers
+
+# Push-to-deploy: every push to main (or a manual run) type-checks, tests, then
+# ships the Worker + static assets to Cloudflare. Requires two repo secrets —
+# CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID (see README → Deployment) — and a
+# real SESSIONS KV id in wrangler.jsonc (the deploy fails while it's the placeholder).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# One deploy at a time; a newer push cancels an in-flight run.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (type-check + bundle client + worker)
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      # Uses the repo's pinned wrangler (matches @cloudflare/vite-plugin). The build
+      # above emits dist/<name>/wrangler.json, which `wrangler deploy` picks up.
+      - name: Deploy
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
